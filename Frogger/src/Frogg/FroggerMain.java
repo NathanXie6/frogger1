@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import Frogg.Position;
+import Frogg.Element;
 
 
 
@@ -29,10 +30,15 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 	
 	Frog frog;
 	
+
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+		FroggerMain frogger = new FroggerMain();
+	}
 	
-	public void paint(Graphics g) {
-		super.paintComponent(g);
+	public FroggerMain() throws IOException {
 		
+		frog = new Frog(new Position(screenWidth / 2d - Frog.width / 2, screenHeight - Frog.height - 40));
 		elements = new ArrayList<>();
 		//first rows of cars
 		elements.add(new ArrayList<>());
@@ -44,7 +50,43 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		elements.add(new ArrayList<>());
 		elements.add(new ArrayList<>());
 		
-		elements.get(0).add(new Log(new Position(0,538), new Velocity (1,0)));
+		//boats
+		elements.get(0).add(new Log(new Position(0,290), new Velocity (0.5,0)));
+		elements.get(0).add(new Log(new Position(220, 290), new Velocity (0.5,0)));
+		elements.get(0).add(new Log(new Position(440,290), new Velocity (0.5,0)));
+		elements.get(0).add(new Log(new Position(660 , 290), new Velocity (0.5,0)));
+		
+		elements.get(1).add(new Log(new Position(0, 225), new Velocity(-0.6,0)));
+		elements.get(1).add(new Log(new Position(220, 225), new Velocity(-0.6,0)));
+		elements.get(1).add(new Log(new Position(440, 225), new Velocity(-0.6,0)));
+		elements.get(1).add(new Log(new Position(660, 225), new Velocity(-0.6,0)));
+		
+		elements.get(2).add(new Log(new Position(0, 155), new Velocity (0.6,0)));
+		elements.get(2).add(new Log(new Position(220, 155), new Velocity (0.6,0)));
+		elements.get(2).add(new Log(new Position(440,155), new Velocity (0.6,0)));
+		elements.get(2).add(new Log(new Position(660 , 155), new Velocity (0.6,0)));
+		
+		elements.get(3).add(new Log(new Position(0, 95), new Velocity(-0.5,0)));
+		elements.get(3).add(new Log(new Position(220, 95), new Velocity(-0.5,0)));
+		elements.get(3).add(new Log(new Position(440, 95), new Velocity(-0.5,0)));
+		elements.get(3).add(new Log(new Position(660, 95), new Velocity(-0.5,0)));
+		
+		JFrame f = new JFrame("Frogger");
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+		f.setSize(900,700);
+		f.add(this);
+		f.addKeyListener(this);
+		t = new Timer(16, this);
+		t.start();
+		f.setVisible(true);
+		
+		
+		
+	}
+	
+	public void paint(Graphics g) {
+		super.paintComponent(g);
+		
 		
 		g.setColor(Color.green);
 		g.fillRect(0, 613, screenWidth, 50);
@@ -61,39 +103,58 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		g.fillRect(0, 58, screenWidth, 300);
 		
 		g.setColor(Color.green);
-		g.fillRect(0, 0, screenWidth, 60);
+		g.fillRect(0, 0, screenWidth, 80);
 		
+	
 
+		for(int i = 0; i < elements.size()-1; i++) {
+			for(int j = 0; j < elements.get(i).size(); j++) {
+				
+				elements.get(i).get(j).paint(g);
+			}
+		}
+		
+		/*
+		 * SECOND
+		 * 
+		 * Code something here that makes it so when the logs in element
+		 * gets resent back to original place when either the x value, or the x + length value
+		 * crosses one of the sides
+		 * 
+		 * purpose is so that we can continue to reuse these logs rather than creating an infinite
+		 * amount
+		 * 
+		 * make sure timing is okay (so the spaces don't get too small)
+		 *
+		 */
+		
+		
+		/*
+		 * 
+		 * THIRD
+		 * 
+		 * 
+		 * implement some way to check if on boat
+		 * make sure that the character follows the boat
+		 * so set character velocity to the boats velocity when
+		 * character is on boat
+		 * 
+		 * however make sure that it can't follow the boat off teh screen
+		 * 
+		 */
+		
+		/*
+		 * 
+		 * DO THIS FIRST 
+		 * 
+		 * Finish Car Class
+		 * instantiate 3 rows of cars in elements (the arraylist)
+		 * then make collision
+		 */
+		
 		frog.paint(g);
 		this.repaint();
 	
-	}
-
-	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
-		FroggerMain frogger = new FroggerMain();
-	}
-	
-	public FroggerMain() throws IOException {
-		
-		frog = new Frog(new Position(screenWidth / 2d - Frog.width / 2, screenHeight - Frog.height - 40));
-		
-		JFrame f = new JFrame("Frogger");
-		//makes sure that the program stops when the window is close
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //don't delete
-		
-		//GUI dimensions - width - height
-		f.setSize(900,700);
-		
-		
-		f.add(this);
-		f.addKeyListener(this);
-		t = new Timer(16, this);
-		t.start();
-		f.setVisible(true);
-		
-		
-		
 	}
 
 	@Override
@@ -107,10 +168,10 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		// TODO Auto-generated method stub
 		System.out.println(arg0.getKeyCode());
 		if(arg0.getKeyCode() == 87) {
-			frog.setPosition(new Position(frog.getPosition().x, frog.getPosition().y -75));
+			frog.setPosition(new Position(frog.getPosition().x, frog.getPosition().y -65));
 		}
 		if(arg0.getKeyCode() == 83) {
-			frog.setPosition(new Position(frog.getPosition().x, frog.getPosition().y + 75));
+			frog.setPosition(new Position(frog.getPosition().x, frog.getPosition().y + 65));
 		}
 		if(arg0.getKeyCode() == 65) {
 			frog.setPosition(new Position(frog.getPosition().x - 75, frog.getPosition().y));

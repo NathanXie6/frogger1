@@ -84,7 +84,8 @@ public class Element {
 	
 	public void paint(Graphics g) {
 		g.drawImage(image,(int)Math.round(position.x), (int)Math.round(position.y), null);
-		
+		position.x += velocity.xVelo;
+		position.y += velocity.yVelo;
 	}
 	
 
