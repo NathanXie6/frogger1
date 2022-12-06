@@ -50,26 +50,42 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		elements.add(new ArrayList<>());
 		elements.add(new ArrayList<>());
 		
+		//dinos
+		elements.get(0).add(new Car(new Position(0, 540), new Velocity (0.5,0)));
+		elements.get(0).add(new Car(new Position(300, 540), new Velocity (0.5,0)));
+		elements.get(0).add(new Car(new Position(600, 540), new Velocity (0.5,0)));
+
+		elements.get(1).add(new Car(new Position(0, 480), new Velocity (-0.5,0)));
+		elements.get(1).add(new Car(new Position(220, 480), new Velocity (-0.5,0)));
+		elements.get(1).add(new Car(new Position(440, 480), new Velocity (-0.5,0)));
+		
+		elements.get(2).add(new Car(new Position(0,410), new Velocity (0.5,0)));
+		elements.get(2).add(new Car(new Position(220, 410), new Velocity (0.5,0)));
+		elements.get(2).add(new Car(new Position(440,410), new Velocity (0.5,0)));
+		
+		
 		//boats
-		elements.get(0).add(new Log(new Position(0,290), new Velocity (0.5,0)));
-		elements.get(0).add(new Log(new Position(220, 290), new Velocity (0.5,0)));
-		elements.get(0).add(new Log(new Position(440,290), new Velocity (0.5,0)));
-		elements.get(0).add(new Log(new Position(660 , 290), new Velocity (0.5,0)));
+		elements.get(3).add(new Log(new Position(0,290), new Velocity (0.5,0)));
+		elements.get(3).add(new Log(new Position(220, 290), new Velocity (0.5,0)));
+		elements.get(3).add(new Log(new Position(440,290), new Velocity (0.5,0)));
+		elements.get(3).add(new Log(new Position(660 , 290), new Velocity (0.5,0)));
 		
-		elements.get(1).add(new Log(new Position(0, 225), new Velocity(-0.6,0)));
-		elements.get(1).add(new Log(new Position(220, 225), new Velocity(-0.6,0)));
-		elements.get(1).add(new Log(new Position(440, 225), new Velocity(-0.6,0)));
-		elements.get(1).add(new Log(new Position(660, 225), new Velocity(-0.6,0)));
+		elements.get(4).add(new Log(new Position(0, 225), new Velocity(-0.6,0)));
+		elements.get(4).add(new Log(new Position(220, 225), new Velocity(-0.6,0)));
+		elements.get(4).add(new Log(new Position(440, 225), new Velocity(-0.6,0)));
+		elements.get(4).add(new Log(new Position(660, 225), new Velocity(-0.6,0)));
 		
-		elements.get(2).add(new Log(new Position(0, 155), new Velocity (0.6,0)));
-		elements.get(2).add(new Log(new Position(220, 155), new Velocity (0.6,0)));
-		elements.get(2).add(new Log(new Position(440,155), new Velocity (0.6,0)));
-		elements.get(2).add(new Log(new Position(660 , 155), new Velocity (0.6,0)));
+		elements.get(5).add(new Log(new Position(0, 155), new Velocity (0.6,0)));
+		elements.get(5).add(new Log(new Position(220, 155), new Velocity (0.6,0)));
+		elements.get(5).add(new Log(new Position(440,155), new Velocity (0.6,0)));
+		elements.get(5).add(new Log(new Position(660 , 155), new Velocity (0.6,0)));
 		
-		elements.get(3).add(new Log(new Position(0, 95), new Velocity(-0.5,0)));
-		elements.get(3).add(new Log(new Position(220, 95), new Velocity(-0.5,0)));
-		elements.get(3).add(new Log(new Position(440, 95), new Velocity(-0.5,0)));
-		elements.get(3).add(new Log(new Position(660, 95), new Velocity(-0.5,0)));
+		elements.get(6).add(new Log(new Position(0, 95), new Velocity(-0.5,0)));
+		elements.get(6).add(new Log(new Position(220, 95), new Velocity(-0.5,0)));
+		elements.get(6).add(new Log(new Position(440, 95), new Velocity(-0.5,0)));
+		elements.get(6).add(new Log(new Position(660, 95), new Velocity(-0.5,0)));
+		
+		
 		
 		JFrame f = new JFrame("Frogger");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
@@ -107,26 +123,30 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		
 	
 
-		for(int i = 0; i < elements.size()-1; i++) {
+		for(int i = 0; i < elements.size(); i++) {
 			for(int j = 0; j < elements.get(i).size(); j++) {
+				
+				/*
+				 * SECOND
+				 * 
+				 * Code something here that makes it so when the logs in element
+				 * gets resent back to original place when either the x value, or the x + length value
+				 * crosses one of the sides
+				 * 
+				 * purpose is so that we can continue to reuse these logs rather than creating an infinite
+				 * amount
+				 * 
+				 * make sure timing is okay (so the spaces don't get too small)
+				 *
+				 */		
+				
+				
 				
 				elements.get(i).get(j).paint(g);
 			}
 		}
 		
-		/*
-		 * SECOND
-		 * 
-		 * Code something here that makes it so when the logs in element
-		 * gets resent back to original place when either the x value, or the x + length value
-		 * crosses one of the sides
-		 * 
-		 * purpose is so that we can continue to reuse these logs rather than creating an infinite
-		 * amount
-		 * 
-		 * make sure timing is okay (so the spaces don't get too small)
-		 *
-		 */
+		
 		
 		
 		/*
@@ -143,14 +163,7 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		 * 
 		 */
 		
-		/*
-		 * 
-		 * DO THIS FIRST 
-		 * 
-		 * Finish Car Class
-		 * instantiate 3 rows of cars in elements (the arraylist)
-		 * then make collision
-		 */
+		
 		
 		frog.paint(g);
 		this.repaint();
