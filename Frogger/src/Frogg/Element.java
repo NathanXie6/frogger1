@@ -88,6 +88,8 @@ public class Element {
 		position.y += velocity.yVelo;
 	}
 	
+	
+	
 
 
 

@@ -23,7 +23,7 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 	
 	int screenWidth = 900;
 	int screenHeight = 700;
-	boolean isOnBoat;
+	boolean isOnBoat = false;
 	boolean isColliding; 
 	
 	ArrayList<ArrayList<Element>> elements;
@@ -54,36 +54,39 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		elements.get(0).add(new Car(new Position(0, 540), new Velocity (0.5,0)));
 		elements.get(0).add(new Car(new Position(300, 540), new Velocity (0.5,0)));
 		elements.get(0).add(new Car(new Position(600, 540), new Velocity (0.5,0)));
+		elements.get(0).add(new Car(new Position(900, 540), new Velocity (0.5,0)));
 
 		elements.get(1).add(new Car(new Position(0, 480), new Velocity (-0.5,0)));
-		elements.get(1).add(new Car(new Position(220, 480), new Velocity (-0.5,0)));
-		elements.get(1).add(new Car(new Position(440, 480), new Velocity (-0.5,0)));
+		elements.get(1).add(new Car(new Position(300, 480), new Velocity (-0.5,0)));
+		elements.get(1).add(new Car(new Position(600, 480), new Velocity (-0.5,0)));
+		elements.get(1).add(new Car(new Position(900, 540), new Velocity (0.5,0)));
 		
 		elements.get(2).add(new Car(new Position(0,410), new Velocity (0.5,0)));
-		elements.get(2).add(new Car(new Position(220, 410), new Velocity (0.5,0)));
-		elements.get(2).add(new Car(new Position(440,410), new Velocity (0.5,0)));
+		elements.get(2).add(new Car(new Position(300, 410), new Velocity (0.5,0)));
+		elements.get(2).add(new Car(new Position(600,410), new Velocity (0.5,0)));
+		elements.get(2).add(new Car(new Position(900, 540), new Velocity (0.5,0)));
 		
 		
 		//boats
-		elements.get(3).add(new Log(new Position(0,290), new Velocity (0.5,0)));
-		elements.get(3).add(new Log(new Position(220, 290), new Velocity (0.5,0)));
-		elements.get(3).add(new Log(new Position(440,290), new Velocity (0.5,0)));
-		elements.get(3).add(new Log(new Position(660 , 290), new Velocity (0.5,0)));
+		elements.get(3).add(new Log(new Position(0,290), new Velocity (0.2,0)));
+		elements.get(3).add(new Log(new Position(300, 290), new Velocity (0.2,0)));
+		elements.get(3).add(new Log(new Position(600,290), new Velocity (0.2,0)));
+		elements.get(3).add(new Log(new Position(900 , 290), new Velocity (0.2,0)));
 		
-		elements.get(4).add(new Log(new Position(0, 225), new Velocity(-0.6,0)));
-		elements.get(4).add(new Log(new Position(220, 225), new Velocity(-0.6,0)));
-		elements.get(4).add(new Log(new Position(440, 225), new Velocity(-0.6,0)));
-		elements.get(4).add(new Log(new Position(660, 225), new Velocity(-0.6,0)));
+		elements.get(4).add(new Log(new Position(0, 225), new Velocity(-0.3,0)));
+		elements.get(4).add(new Log(new Position(300, 225), new Velocity(-0.3,0)));
+		elements.get(4).add(new Log(new Position(600, 225), new Velocity(-0.3,0)));
+		elements.get(4).add(new Log(new Position(900, 225), new Velocity(-0.3,0)));
 		
-		elements.get(5).add(new Log(new Position(0, 155), new Velocity (0.6,0)));
-		elements.get(5).add(new Log(new Position(220, 155), new Velocity (0.6,0)));
-		elements.get(5).add(new Log(new Position(440,155), new Velocity (0.6,0)));
-		elements.get(5).add(new Log(new Position(660 , 155), new Velocity (0.6,0)));
+		elements.get(5).add(new Log(new Position(0, 155), new Velocity (0.3,0)));
+		elements.get(5).add(new Log(new Position(300, 155), new Velocity (0.3,0)));
+		elements.get(5).add(new Log(new Position(600,155), new Velocity (0.3,0)));
+		elements.get(5).add(new Log(new Position(900 , 155), new Velocity (0.3,0)));
 		
-		elements.get(6).add(new Log(new Position(0, 95), new Velocity(-0.5,0)));
-		elements.get(6).add(new Log(new Position(220, 95), new Velocity(-0.5,0)));
-		elements.get(6).add(new Log(new Position(440, 95), new Velocity(-0.5,0)));
-		elements.get(6).add(new Log(new Position(660, 95), new Velocity(-0.5,0)));
+		elements.get(6).add(new Log(new Position(0, 95), new Velocity(-0.2,0)));
+		elements.get(6).add(new Log(new Position(300, 95), new Velocity(-0.2,0)));
+		elements.get(6).add(new Log(new Position(600, 95), new Velocity(-0.2,0)));
+		elements.get(6).add(new Log(new Position(900, 95), new Velocity(-0.2,0)));
 		
 		
 		
@@ -126,21 +129,55 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		for(int i = 0; i < elements.size(); i++) {
 			for(int j = 0; j < elements.get(i).size(); j++) {
 				
-				/*
-				 * SECOND
-				 * 
-				 * Code something here that makes it so when the logs in element
-				 * gets resent back to original place when either the x value, or the x + length value
-				 * crosses one of the sides
-				 * 
-				 * purpose is so that we can continue to reuse these logs rather than creating an infinite
-				 * amount
-				 * 
-				 * make sure timing is okay (so the spaces don't get too small)
-				 *
-				 */		
+		
+				Element element = elements.get(i).get(j);
+				double y = element.getPosition().y;
+				double x = element.getPosition().x;
+				double xVelo = element.getVelocity().xVelo;
+				if (xVelo > 0 && x > 1000 ) {
+					element.setPosition(new Position(-300, y));
+				}
+					else if (xVelo < 0 && element.getPosition().x + 120 < 0) { //120 is the length
+						element.setPosition(new Position(1300, y));
+					}
+				
+
+				if(element.type.CAR == elements.get(i).get(j).type &&
+				   element.getPosition().x<= frog.getPosition().x + frog.width && frog.getPosition().x <= element.getPosition().x + element.width &&
+				   element.getPosition().y<= frog.getPosition().y + frog.height && frog.getPosition().y <= element.getPosition().y + element.height) {
+					
+					isColliding = true;
+				}
+				
+				if(element.type.BOAT == elements.get(i).get(j).type &&
+				    element.getPosition().x<= frog.getPosition().x + frog.width && frog.getPosition().x <= element.getPosition().x + element.width &&
+				    element.getPosition().y<= frog.getPosition().y + frog.height && frog.getPosition().y <= element.getPosition().y + element.height) {
+				    frog.setVelocity(element.getVelocity());
+		   		    isOnBoat = true;
+		   		 System.out.println("onboat");
+				}
+				if (element.type.BOAT == elements.get(i).get(j).type && frog.getPosition().y < 306 && frog.getPosition().y <= 110 && isOnBoat != true){
+					isOnBoat = false;
+					System.out.println("notonboat");
+				}
+//				
+				if(isColliding) {
+					
+					resetCharPosition();
+					isColliding = false;
+				}
+				
+//				System.out.println(frog.getPosition().y);
+//				System.out.println(isOnBoat);
+				
+				if(!isOnBoat && frog.getPosition().y > 306 && frog.getPosition().y <= 110) {
+					resetCharPosition();
+					System.out.println("not on boat ");
+					
+				}
 				
 				
+				//playerPos.x + playerWidth >= position.x && playerPos.x <= position.x + width
 				
 				elements.get(i).get(j).paint(g);
 			}
@@ -148,6 +185,8 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		
 		
 		
+		
+
 		
 		/*
 		 * 
@@ -161,6 +200,7 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		 * 
 		 * however make sure that it can't follow the boat off teh screen
 		 * 
+		 * 
 		 */
 		
 		
@@ -169,6 +209,13 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		this.repaint();
 	
 	}
+	
+	
+	public void resetCharPosition() {
+		frog.getPosition().x = screenWidth / 2d - Frog.width/2;
+		frog.getPosition().y = screenHeight - Frog.height - 40;
+	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -192,6 +239,8 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		if(arg0.getKeyCode() == 68) {
 			frog.setPosition(new Position(frog.getPosition().x + 75, frog.getPosition().y));
 		}
+		
+		this.repaint();
 		
 
 	}
