@@ -156,9 +156,14 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		   		    isOnBoat = true;
 		   		 System.out.println("onboat");
 				}
+				
+				if(frog.getVelocity().xVelo == 0 && isOnBoat == true) {
+					isOnBoat = false;
+				}
 				if (element.type.BOAT == elements.get(i).get(j).type && frog.getPosition().y < 306 && frog.getPosition().y <= 110 && isOnBoat != true){
 					isOnBoat = false;
 					System.out.println("notonboat");
+					
 				}
 //				
 				if(isColliding) {
@@ -170,7 +175,7 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 //				System.out.println(frog.getPosition().y);
 //				System.out.println(isOnBoat);
 				
-				if(!isOnBoat && frog.getPosition().y > 306 && frog.getPosition().y <= 110) {
+				if(!isOnBoat) {
 					resetCharPosition();
 					System.out.println("not on boat ");
 					
@@ -229,9 +234,11 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		System.out.println(arg0.getKeyCode());
 		if(arg0.getKeyCode() == 87) {
 			frog.setPosition(new Position(frog.getPosition().x, frog.getPosition().y -65));
+			frog.setVelocity(new Velocity (0,0));
 		}
 		if(arg0.getKeyCode() == 83) {
 			frog.setPosition(new Position(frog.getPosition().x, frog.getPosition().y + 65));
+			frog.setVelocity(new Velocity (0,0));
 		}
 		if(arg0.getKeyCode() == 65) {
 			frog.setPosition(new Position(frog.getPosition().x - 75, frog.getPosition().y));
