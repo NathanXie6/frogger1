@@ -20,10 +20,10 @@ import Frogg.Element;
 public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 	
 	Timer t;
-	
+	int count = 0;
 	int screenWidth = 900;
 	int screenHeight = 700;
-	boolean isOnBoat = false;
+	boolean isOnBoat;
 	boolean isColliding; 
 	
 	ArrayList<ArrayList<Element>> elements;
@@ -125,7 +125,8 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		g.fillRect(0, 0, screenWidth, 80);
 		
 	
-
+		isOnBoat = true;
+		
 		for(int i = 0; i < elements.size(); i++) {
 			for(int j = 0; j < elements.get(i).size(); j++) {
 				
@@ -149,42 +150,49 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 					isColliding = true;
 				}
 				
+				//maybe the following code is faulty??
+				//issue: the isOnBoat is always false so when it crosses the line into water it just dies
 				if(element.type.BOAT == elements.get(i).get(j).type &&
 				    element.getPosition().x<= frog.getPosition().x + frog.width && frog.getPosition().x <= element.getPosition().x + element.width &&
 				    element.getPosition().y<= frog.getPosition().y + frog.height && frog.getPosition().y <= element.getPosition().y + element.height) {
 				    frog.setVelocity(element.getVelocity());
 		   		    isOnBoat = true;
-		   		 System.out.println("onboat");
-				} else {
-					isOnBoat = false;
-				}
+		   		    System.out.println("onboat");
+		   		    System.out.println(isOnBoat);
+				} 
+				
+				//where do i set the value of isOnBoat as false (at beginning)
+				//when the above statement is false
+				//but it wont work with else
+				//because somehow it gets called multiple times and sets the value of isOnBoat as false
+				//and there's no way to cahnge it back into true
 				
 				System.out.println(isOnBoat);
 				
-				if (element.type.BOAT == elements.get(i).get(j).type && frog.getPosition().y < 306 && frog.getPosition().y <= 110 && isOnBoat != true){
-					System.out.println("notonboat");
-					
-				}
-//				
+//					
 				if(isColliding) {
 					
 					resetCharPosition();
 					isColliding = false;
 				}
 				
-				System.out.println(frog.getPosition().y);
-				System.out.println(isOnBoat);
+//				System.out.println(frog.getPosition().y);
+//				System.out.println(isOnBoat);
 				
-				if(!isOnBoat && frog.getPosition().y < 306 && frog.getPosition().y <= 110 ) {
-					resetCharPosition();
-					System.out.println("not on boat ");
-					
-				}
+				
 				
 				
 				//playerPos.x + playerWidth >= position.x && playerPos.x <= position.x + width
 				
 				elements.get(i).get(j).paint(g);
+			}
+			
+			if(isOnBoat == false && frog.getPosition().y <= 306 && frog.getPosition().y >= 100) {
+				resetCharPosition();
+				System.out.println("not on boat ");
+				isOnBoat = true;
+
+				
 			}
 		}
 		
