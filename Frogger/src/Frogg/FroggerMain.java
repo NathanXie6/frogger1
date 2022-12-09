@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,11 +21,13 @@ import Frogg.Element;
 public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 	
 	Timer t;
-	int count = 0;
+	int lives = 3;
 	int screenWidth = 900;
 	int screenHeight = 700;
 	boolean isOnBoat;
 	boolean isColliding; 
+	long startTime = System.currentTimeMillis();
+	long elapsedTime = 0L;
 	
 	ArrayList<ArrayList<Element>> elements;
 	
@@ -124,97 +127,65 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		g.setColor(Color.green);
 		g.fillRect(0, 0, screenWidth, 80);
 		
-	
-		isOnBoat = true;
-		
-		for(int i = 0; i < elements.size(); i++) {
-			for(int j = 0; j < elements.get(i).size(); j++) {
-				
-		
-				Element element = elements.get(i).get(j);
-				double y = element.getPosition().y;
-				double x = element.getPosition().x;
-				double xVelo = element.getVelocity().xVelo;
-				if (xVelo > 0 && x > 1000 ) {
-					element.setPosition(new Position(-300, y));
-				}
-					else if (xVelo < 0 && element.getPosition().x + 120 < 0) { //120 is the length
-						element.setPosition(new Position(1300, y));
-					}
-				
+//		while (elapsedTime < 2*60*1000) { //2 min timer
 
-				if(element.type.CAR == elements.get(i).get(j).type &&
-				   element.getPosition().x<= frog.getPosition().x + frog.width && frog.getPosition().x <= element.getPosition().x + element.width &&
-				   element.getPosition().y<= frog.getPosition().y + frog.height && frog.getPosition().y <= element.getPosition().y + element.height) {
+			isOnBoat = false;
+			
+			for(int i = 0; i < elements.size(); i++) {
+				for(int j = 0; j < elements.get(i).size(); j++) {
 					
-					isColliding = true;
-				}
-				
-				//maybe the following code is faulty??
-				//issue: the isOnBoat is always false so when it crosses the line into water it just dies
-				if(element.type.BOAT == elements.get(i).get(j).type &&
-				    element.getPosition().x<= frog.getPosition().x + frog.width && frog.getPosition().x <= element.getPosition().x + element.width &&
-				    element.getPosition().y<= frog.getPosition().y + frog.height && frog.getPosition().y <= element.getPosition().y + element.height) {
-				    frog.setVelocity(element.getVelocity());
-		   		    isOnBoat = true;
-		   		    System.out.println("onboat");
-		   		    System.out.println(isOnBoat);
-				} 
-				
-				//where do i set the value of isOnBoat as false (at beginning)
-				//when the above statement is false
-				//but it wont work with else
-				//because somehow it gets called multiple times and sets the value of isOnBoat as false
-				//and there's no way to cahnge it back into true
-				
-				System.out.println(isOnBoat);
-				
-//					
-				if(isColliding) {
+			
+					Element element = elements.get(i).get(j);
+					double y = element.getPosition().y;
+					double x = element.getPosition().x;
+					double xVelo = element.getVelocity().xVelo;
 					
-					resetCharPosition();
-					isColliding = false;
+					
+					elements.get(i).get(j).paint(g);
+					
+					if (xVelo > 0 && x > 1000 ) {
+						element.setPosition(new Position(-300, y));
+					}
+						else if (xVelo < 0 && element.getPosition().x + 120 < 0) { //120 is the length of element
+							element.setPosition(new Position(1300, y));
+						}
+					
+
+					if(element.type.CAR == elements.get(i).get(j).type &&
+					   element.getPosition().x <= frog.getPosition().x + frog.width && frog.getPosition().x <= element.getPosition().x + element.width &&
+					   element.getPosition().y <= frog.getPosition().y + frog.height && frog.getPosition().y <= element.getPosition().y + element.height) {
+						
+						isColliding = true;
+					}
+					
+					
+					else if(element.type.BOAT == elements.get(i).get(j).type &&
+					    element.getPosition().x <= frog.getPosition().x + frog.width && frog.getPosition().x <= element.getPosition().x + element.width &&
+					    element.getPosition().y <= frog.getPosition().y + frog.height && frog.getPosition().y <= element.getPosition().y + element.height) {
+					    frog.setVelocity(element.getVelocity());
+					    
+					    if( frog.getPosition().x > 900-frog.width || frog.getPosition().x < 0) {
+					    	frog.setVelocity(new Velocity(0,0));
+					    }
+			   		    isOnBoat = true;
+					} 
+				
+					if(isColliding) {
+						resetCharPosition();
+						isColliding = false;
+					}
 				}
-				
-//				System.out.println(frog.getPosition().y);
-//				System.out.println(isOnBoat);
-				
-				
-				
-				
-				//playerPos.x + playerWidth >= position.x && playerPos.x <= position.x + width
-				
-				elements.get(i).get(j).paint(g);
 			}
 			
-			if(isOnBoat == false && frog.getPosition().y <= 306 && frog.getPosition().y >= 100) {
+			if(!isOnBoat && frog.getPosition().y <= 306 && frog.getPosition().y >= 100) {
 				resetCharPosition();
-				System.out.println("not on boat ");
-				isOnBoat = true;
-
-				
 			}
-		}
-		
-		
-		
-		
+			
+		    elapsedTime = (new Date()).getTime() - startTime;
+//		} //timer end curly
+	
 
-		
-		/*
-		 * 
-		 * THIRD
-		 * 
-		 * 
-		 * implement some way to check if on boat
-		 * make sure that the character follows the boat
-		 * so set character velocity to the boats velocity when
-		 * character is on boat
-		 * 
-		 * however make sure that it can't follow the boat off teh screen
-		 * 
-		 * 
-		 */
+//Add a timer
 		
 		
 		
@@ -227,6 +198,7 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 	public void resetCharPosition() {
 		frog.getPosition().x = screenWidth / 2d - Frog.width/2;
 		frog.getPosition().y = screenHeight - Frog.height - 40;
+		lives--;
 	}
 	
 
