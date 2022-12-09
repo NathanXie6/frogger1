@@ -1,6 +1,9 @@
 package Frogg;
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -26,8 +29,7 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 	int screenHeight = 700;
 	boolean isOnBoat;
 	boolean isColliding; 
-	long startTime = System.currentTimeMillis();
-	long elapsedTime = 0L;
+
 	
 	ArrayList<ArrayList<Element>> elements;
 	
@@ -54,20 +56,20 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		elements.add(new ArrayList<>());
 		
 		//dinos
-		elements.get(0).add(new Car(new Position(0, 540), new Velocity (0.5,0)));
-		elements.get(0).add(new Car(new Position(300, 540), new Velocity (0.5,0)));
-		elements.get(0).add(new Car(new Position(600, 540), new Velocity (0.5,0)));
-		elements.get(0).add(new Car(new Position(900, 540), new Velocity (0.5,0)));
+		elements.get(0).add(new Car(new Position(0, 540), new Velocity (0.4,0)));
+		elements.get(0).add(new Car(new Position(300, 540), new Velocity (0.4,0)));
+		elements.get(0).add(new Car(new Position(600, 540), new Velocity (0.4,0)));
+		elements.get(0).add(new Car(new Position(900, 540), new Velocity (0.4,0)));
 
 		elements.get(1).add(new Car(new Position(0, 480), new Velocity (-0.5,0)));
 		elements.get(1).add(new Car(new Position(300, 480), new Velocity (-0.5,0)));
 		elements.get(1).add(new Car(new Position(600, 480), new Velocity (-0.5,0)));
-		elements.get(1).add(new Car(new Position(900, 540), new Velocity (0.5,0)));
+		elements.get(1).add(new Car(new Position(900, 480), new Velocity (-0.5,0)));
 		
-		elements.get(2).add(new Car(new Position(0,410), new Velocity (0.5,0)));
-		elements.get(2).add(new Car(new Position(300, 410), new Velocity (0.5,0)));
-		elements.get(2).add(new Car(new Position(600,410), new Velocity (0.5,0)));
-		elements.get(2).add(new Car(new Position(900, 540), new Velocity (0.5,0)));
+		elements.get(2).add(new Car(new Position(0,410), new Velocity (0.3,0)));
+		elements.get(2).add(new Car(new Position(300, 410), new Velocity (0.3,0)));
+		elements.get(2).add(new Car(new Position(600,410), new Velocity (0.3,0)));
+		elements.get(2).add(new Car(new Position(900, 410), new Velocity (0.3,0)));
 		
 		
 		//boats
@@ -104,30 +106,44 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		
 		
 		
+		
 	}
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		
 		
-		g.setColor(Color.green);
+		g.setColor(new Color(43, 171, 26));
 		g.fillRect(0, 613, screenWidth, 50);
+		
+		g.setColor(Color.black);
 		
 		//3 roads (75 each)
 		g.setColor(Color.gray);
 		g.fillRect(0, 388, screenWidth, 225);
 		
-		g.setColor(Color.green);
+		g.setColor(new Color(43, 171, 26));
 		g.fillRect(0, 358, screenWidth, 50);
 		
 		//4 layers of water (75 each)
 		g.setColor(Color.BLUE);
 		g.fillRect(0, 58, screenWidth, 300);
 		
-		g.setColor(Color.green);
+		g.setColor(new Color(43, 171, 26));
 		g.fillRect(0, 0, screenWidth, 80);
 		
-//		while (elapsedTime < 2*60*1000) { //2 min timer
+		g.setColor(new Color(30, 105, 20));
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setStroke(new BasicStroke(4));
+		g2.drawLine(0, 613, 900, 613);
+		g2.drawLine(0, 408, 900, 408);
+		g2.drawLine(0, 358, 900, 358);
+		g2.drawLine(0, 82, 900, 82);
+		
+		g.setColor(Color.black);
+		Font font2 = new Font("Calibri", Font.BOLD,40);
+		g.setFont(font2);
+		g.drawString("Lives Left: " + lives, 10, 650);
 
 			isOnBoat = false;
 			
@@ -180,9 +196,8 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 			if(!isOnBoat && frog.getPosition().y <= 306 && frog.getPosition().y >= 100) {
 				resetCharPosition();
 			}
-			
-		    elapsedTime = (new Date()).getTime() - startTime;
-//		} //timer end curly
+	
+
 	
 
 //Add a timer
@@ -199,6 +214,7 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		frog.getPosition().x = screenWidth / 2d - Frog.width/2;
 		frog.getPosition().y = screenHeight - Frog.height - 40;
 		lives--;
+		System.out.println(lives);
 	}
 	
 
@@ -221,11 +237,11 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 			frog.setVelocity(new Velocity (0,0));
 		}
 		if(arg0.getKeyCode() == 65) {
-			frog.setPosition(new Position(frog.getPosition().x - 75, frog.getPosition().y));
+			frog.setPosition(new Position(frog.getPosition().x - 55, frog.getPosition().y));
 			frog.setVelocity(new Velocity (0,0));
 		}
 		if(arg0.getKeyCode() == 68) {
-			frog.setPosition(new Position(frog.getPosition().x + 75, frog.getPosition().y));
+			frog.setPosition(new Position(frog.getPosition().x + 55, frog.getPosition().y));
 			frog.setVelocity(new Velocity (0,0));
 		}
 		
