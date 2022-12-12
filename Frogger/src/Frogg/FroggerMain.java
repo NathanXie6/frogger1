@@ -25,16 +25,29 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 	
 	Timer t;
 	int points = 0;
+	int count = 0;
 	int lives = 5;
 	int screenWidth = 900;
 	int screenHeight = 700;
 	boolean isOnBoat;
 	boolean isColliding; 
+	
+	boolean hasScoredOn1;
+	boolean hasScoredOn2;
+	boolean hasScoredOn3;
+	boolean hasScoredOn4;
+	boolean hasScoredOn5;	
 
 	
 	ArrayList<ArrayList<Element>> elements;
 	
 	Frog frog;
+	//stationary frogs
+	Frog frog1;
+	Frog frog2;
+	Frog frog3;
+	Frog frog4;
+	Frog frog5;
 	
 
 	public static void main(String[] args) throws IOException {
@@ -45,6 +58,12 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 	public FroggerMain() throws IOException {
 		
 		frog = new Frog(new Position(screenWidth / 2d - Frog.width / 2, screenHeight - Frog.height - 40));
+		frog1 = new Frog(new Position(105,40));
+		frog2 = new Frog(new Position(265, 40));
+		frog3 = new Frog(new Position(425, 40));
+		frog4 = new Frog(new Position(585, 40));
+		frog5 = new Frog(new Position(745, 40));
+		
 		elements = new ArrayList<>();
 		//first rows of cars
 		elements.add(new ArrayList<>());
@@ -120,7 +139,7 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		g.setColor(Color.black);
 		
 		//3 roads (75 each)
-		g.setColor(Color.gray);
+		g.setColor(new Color(40,40,40));
 		g.fillRect(0, 388, screenWidth, 225);
 		
 		g.setColor(new Color(43, 171, 26));
@@ -152,9 +171,13 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		
 		
 		g.setColor(Color.black);
-		Font font2 = new Font("Calibri", Font.BOLD,40);
+		Font font2 = new Font("Arcade Classic", Font.BOLD,40);
 		g.setFont(font2);
 		g.drawString("Lives Left: " + lives, 10, 650);
+		
+		Font scoreFont = new Font("Arcade Classic", Font.PLAIN, 15);
+		g.setFont(scoreFont);
+		g.drawString("Score: " + points, 400, 20);
 
 			isOnBoat = false;
 			
@@ -184,6 +207,8 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 					   element.getPosition().y <= frog.getPosition().y + frog.height && frog.getPosition().y <= element.getPosition().y + element.height) {
 						
 						isColliding = true;
+				
+			
 					}
 					
 					
@@ -200,6 +225,7 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 				
 					if(isColliding) {
 						resetCharPosition();
+						lives--;
 						isColliding = false;
 					}
 				}
@@ -219,6 +245,72 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 			if(!isOnBoat && frog.getPosition().y <= 306 && frog.getPosition().y >= 100) {
 				resetCharPosition();
 			}
+			
+			
+			/*
+			 * 
+				g.fillRect(105, 40, 50, 50);
+				g.fillRect(265, 40, 50, 50);
+				g.fillRect(425, 40, 50, 50);
+				g.fillRect(585, 40, 50, 50);
+				g.fillRect(745, 40, 50, 50);
+			 */
+			
+
+			if(frog.getPosition().x >= 100 && frog.getPosition().x <= 160 && frog.getPosition().y < 100 && frog.getPosition().y > 10) {
+				frog1.paint(g);
+				hasScoredOn1 = true;
+				resetCharPosition();
+			}	
+			
+			if(frog.getPosition().x >= 260 && frog.getPosition().x <= 320 && frog.getPosition().y <100 && frog.getPosition().y > 10) {
+				frog2.paint(g);
+				hasScoredOn2 = true;
+				resetCharPosition();
+			}
+			
+			if(frog.getPosition().x >= 420 && frog.getPosition().x <= 480 && frog.getPosition().y <100 && frog.getPosition().y > 10) {
+				frog3.paint(g);
+				hasScoredOn3 = true;
+				resetCharPosition();
+			}
+			
+			if(frog.getPosition().x >= 580 && frog.getPosition().x <= 640 && frog.getPosition().y <100 && frog.getPosition().y > 10) {
+				frog4.paint(g);
+				hasScoredOn4 = true;
+				resetCharPosition();
+			}
+			
+			if(frog.getPosition().x >= 740 && frog.getPosition().x <= 800 && frog.getPosition().y <100 && frog.getPosition().y > 10) {
+				frog5.paint(g);
+				hasScoredOn5 = true;
+				resetCharPosition();
+			}
+			
+			if(hasScoredOn1) {
+				frog1.paint(g);
+
+			}
+			
+			if(hasScoredOn2) {
+				frog2.paint(g);
+				
+			}
+			
+			if(hasScoredOn3) {
+				frog3.paint(g);
+				
+			}
+			
+			if(hasScoredOn4) {
+				frog4.paint(g);
+				
+			}
+			
+			if(hasScoredOn5) {
+				frog5.paint(g);
+				
+			}
 
 	
 
@@ -235,7 +327,6 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 	public void resetCharPosition() {
 		frog.getPosition().x = screenWidth / 2d - Frog.width/2;
 		frog.getPosition().y = screenHeight - Frog.height - 40;
-		lives--;
 		System.out.println(lives);
 	}
 	
