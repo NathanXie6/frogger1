@@ -24,7 +24,8 @@ import Frogg.Element;
 public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 	
 	Timer t;
-	int lives = 3;
+	int points = 0;
+	int lives = 5;
 	int screenWidth = 900;
 	int screenHeight = 700;
 	boolean isOnBoat;
@@ -132,6 +133,7 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		g.setColor(new Color(43, 171, 26));
 		g.fillRect(0, 0, screenWidth, 80);
 		
+		
 		g.setColor(new Color(30, 105, 20));
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(4));
@@ -139,6 +141,15 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		g2.drawLine(0, 408, 900, 408);
 		g2.drawLine(0, 358, 900, 358);
 		g2.drawLine(0, 82, 900, 82);
+		
+		g.setColor(Color.BLUE);
+		g.fillRect(105, 40, 50, 50);
+		g.fillRect(265, 40, 50, 50);
+		g.fillRect(425, 40, 50, 50);
+		g.fillRect(585, 40, 50, 50);
+		g.fillRect(745, 40, 50, 50);
+	
+		
 		
 		g.setColor(Color.black);
 		Font font2 = new Font("Calibri", Font.BOLD,40);
@@ -165,6 +176,7 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 						else if (xVelo < 0 && element.getPosition().x + 120 < 0) { //120 is the length of element
 							element.setPosition(new Position(1300, y));
 						}
+			
 					
 
 					if(element.type.CAR == elements.get(i).get(j).type &&
@@ -193,14 +205,24 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 				}
 			}
 			
+			if(frog.getPosition().x < 0) {
+				frog.setPosition(new Position(0, (int)frog.getPosition().y));
+			}else if(frog.getPosition().x > 790 + frog.width) {
+				frog.setPosition(new Position(790 + frog.width , (int)frog.getPosition().y));
+			}
+			if(frog.getPosition().y > 700 - frog.height) {
+				frog.setPosition(new Position(frog.getPosition().x, 700));
+			} else if(frog.getPosition().y < 0) {
+				frog.setPosition(new Position(frog.getPosition().x, 0));
+			}
+			
 			if(!isOnBoat && frog.getPosition().y <= 306 && frog.getPosition().y >= 100) {
 				resetCharPosition();
 			}
-	
 
 	
 
-//Add a timer
+//Add a timer bar
 		
 		
 		
