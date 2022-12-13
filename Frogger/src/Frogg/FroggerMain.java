@@ -115,6 +115,8 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		
 		
 		
+		
+		
 		JFrame f = new JFrame("Frogger");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		f.setSize(900,700);
@@ -260,6 +262,7 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 			if(frog.getPosition().x >= 100 && frog.getPosition().x <= 160 && frog.getPosition().y < 100 && frog.getPosition().y > 10) {
 				frog1.paint(g);
 				hasScoredOn1 = true;
+				points += 50;
 				resetCharPosition();
 			}	
 			
@@ -267,24 +270,28 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 				frog2.paint(g);
 				hasScoredOn2 = true;
 				resetCharPosition();
+				points += 50;
 			}
 			
 			if(frog.getPosition().x >= 420 && frog.getPosition().x <= 480 && frog.getPosition().y <100 && frog.getPosition().y > 10) {
 				frog3.paint(g);
 				hasScoredOn3 = true;
 				resetCharPosition();
+				points += 50;
 			}
 			
 			if(frog.getPosition().x >= 580 && frog.getPosition().x <= 640 && frog.getPosition().y <100 && frog.getPosition().y > 10) {
 				frog4.paint(g);
 				hasScoredOn4 = true;
 				resetCharPosition();
+				points += 50;
 			}
 			
 			if(frog.getPosition().x >= 740 && frog.getPosition().x <= 800 && frog.getPosition().y <100 && frog.getPosition().y > 10) {
 				frog5.paint(g);
 				hasScoredOn5 = true;
 				resetCharPosition();
+				points += 50;
 			}
 			
 			if(hasScoredOn1) {
@@ -294,23 +301,30 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 			
 			if(hasScoredOn2) {
 				frog2.paint(g);
-				
+
 			}
 			
 			if(hasScoredOn3) {
 				frog3.paint(g);
-				
+
 			}
 			
 			if(hasScoredOn4) {
 				frog4.paint(g);
-				
+
 			}
 			
 			if(hasScoredOn5) {
 				frog5.paint(g);
-				
+	
 			}
+			
+			if(hasScoredOn1 && hasScoredOn2 && hasScoredOn3 && hasScoredOn4 && hasScoredOn5) {
+				resetTurtleScored();
+				points += 1000;
+			}
+			
+			
 
 	
 
@@ -322,6 +336,15 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		this.repaint();
 	
 	}
+	
+	public void resetTurtleScored() {
+		hasScoredOn5 = false;
+		hasScoredOn4 = false;
+		hasScoredOn3 = false;
+		hasScoredOn2 = false;
+		hasScoredOn1 = false;
+	}
+	
 	
 	
 	public void resetCharPosition() {
@@ -344,6 +367,7 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		if(arg0.getKeyCode() == 87) {
 			frog.setPosition(new Position(frog.getPosition().x, frog.getPosition().y -65));
 			frog.setVelocity(new Velocity (0,0));
+			points += 10;
 		}
 		if(arg0.getKeyCode() == 83) {
 			frog.setPosition(new Position(frog.getPosition().x, frog.getPosition().y + 65));
