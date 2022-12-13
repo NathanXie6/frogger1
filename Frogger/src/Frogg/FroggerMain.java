@@ -245,6 +245,7 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 			}
 			
 			if(!isOnBoat && frog.getPosition().y <= 306 && frog.getPosition().y >= 100) {
+				lives--;
 				resetCharPosition();
 			}
 			
@@ -324,6 +325,15 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 				points += 1000;
 			}
 			
+			if(lives <= 0) {
+				g.setColor(Color.black);
+				Font GameOver = new Font("Impact", Font.BOLD, 100);
+				g.setFont(GameOver);
+				g.drawString("Game Over", 200, 250);
+				
+				resetCharPosition();
+			}
+			
 			
 
 	
@@ -350,7 +360,6 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 	public void resetCharPosition() {
 		frog.getPosition().x = screenWidth / 2d - Frog.width/2;
 		frog.getPosition().y = screenHeight - Frog.height - 40;
-		System.out.println(lives);
 	}
 	
 
