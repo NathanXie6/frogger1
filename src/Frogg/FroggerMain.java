@@ -403,7 +403,7 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 				points += 10;
 			}
 		}
-		if(frog.getPosition().y < screenHeight-70) {
+		if(frog.getPosition().y < screenHeight-80) {
 			if(arg0.getKeyCode() == 83) {
 				frog.setPosition(new Position(frog.getPosition().x, frog.getPosition().y + 65));
 				frog.setVelocity(new Velocity (0,0));
