@@ -2,25 +2,24 @@ package Frogg;
 
 
 import java.awt.BasicStroke;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.TimerTask;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
-import Frogg.Position;
-import Frogg.Element;
-
+import java.util.*;
 
 
 public class FroggerMain extends JPanel implements KeyListener, ActionListener {
@@ -53,6 +52,10 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 	Frog frog4;
 	Frog frog5;
 	waterAnimation splash; 
+	
+	Music hop = new Music("sweep.wav", false);
+	
+	
 
 	
 
@@ -179,6 +182,19 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 		g.fillRect(425, 40, 50, 50);
 		g.fillRect(585, 40, 50, 50);
 		g.fillRect(745, 40, 50, 50);
+		
+		g.setColor(Color.WHITE);
+		Graphics2D g2d = (Graphics2D) g;
+	    //float dash[] = {10.0f};
+	    Stroke dashed = new BasicStroke(5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{16}, 0);
+	    g2d.setStroke(dashed);
+	    g2d.drawLine(0, 540, screenWidth, 540);
+	    g2d.drawLine(0, 469, screenWidth, 469);
+//	    g.setColor(new Color (222, 190, 62));
+//	    Stroke flat = new BasicStroke(3);
+//	    g2d.setStroke(flat);
+//	    g2d.drawLine(0, 472, screenWidth, 472);
+//	    g2d.drawLine(0, 466, screenWidth, 466);
 	
 		
 		
@@ -269,6 +285,8 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 					e.printStackTrace();
 				}
 				
+		
+								
 				lives--;
 				resetCharPosition();
 			}
@@ -358,6 +376,7 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 			
 			if(hasFell) {
 				splash.paint(g);
+				
 			}
 			
 			if(hasScoredOn1 && hasScoredOn2 && hasScoredOn3 && hasScoredOn4 && hasScoredOn5) {
@@ -404,11 +423,7 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 	public void resetCharPosition() {
 		frog.getPosition().x = screenWidth / 2d - Frog.width/2;
 		frog.getPosition().y = screenHeight - Frog.height - 45;
-		long start = System.currentTimeMillis();
-		while(System.currentTimeMillis()-start < 500) {
-			hasFell = true;
-		}
-		hasFell = false;
+		
 		
 	}
 	
@@ -429,20 +444,24 @@ public class FroggerMain extends JPanel implements KeyListener, ActionListener {
 			if(lives > 0) {
 				points += 10;
 			}
+			hop.play();
 		}
 		if(frog.getPosition().y < screenHeight-80) {
 			if(arg0.getKeyCode() == 83) {
 				frog.setPosition(new Position(frog.getPosition().x, frog.getPosition().y + 65));
 				frog.setVelocity(new Velocity (0,0));
+				hop.play();
 			}
 		}
 		if(arg0.getKeyCode() == 65) {
 			frog.setPosition(new Position(frog.getPosition().x - 55, frog.getPosition().y));
 			frog.setVelocity(new Velocity (0,0));
+			hop.play();
 		}
 		if(arg0.getKeyCode() == 68) {
 			frog.setPosition(new Position(frog.getPosition().x + 55, frog.getPosition().y));
 			frog.setVelocity(new Velocity (0,0));
+			hop.play();
 		}
 		
 		this.repaint();
